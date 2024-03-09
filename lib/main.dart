@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
       title: 'AiJokes',
       theme: lightTheme,
       //darkTheme: darkTheme,
-      themeMode: brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+      themeMode:
+          brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: child!,
         breakpoints: [

@@ -9,6 +9,5 @@ class Answer with _$Answer {
     @JsonKey(name: 'generated_text') String? generatedText,
   }) = _Answer;
 
-  factory Answer.fromJson(Map<String, dynamic> json) =>
-      _$AnswerFromJson(json);
+  factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
 }

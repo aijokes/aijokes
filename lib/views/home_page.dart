@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
     chatController.messages.listen((_) {
-      // Выполнить с задержкой, чтобы дать время на рендер нового сообщения
       Future.delayed(const Duration(milliseconds: 100), _scrollToEnd);
     });
   }
@@ -86,9 +85,10 @@ class _HomePageState extends State<HomePage> {
                           chatController.messages[index][isUserMessage]!;
                       return Container(
                         margin: const EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            bottom: 10,),
+                          left: 30,
+                          right: 30,
+                          bottom: 10,
+                        ),
                         decoration: BoxDecoration(
                             color: isUserMessage
                                 ? Colors.transparent

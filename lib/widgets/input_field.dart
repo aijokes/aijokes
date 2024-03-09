@@ -76,8 +76,7 @@ class InputFieldWithButtonState extends State<InputFieldWithButton> {
                               onPressed: () async {
                                 String text = _controller.text;
                                 _controller.clear();
-                                widget.chatController
-                                    .addMessage(text);
+                                widget.chatController.addMessage(text);
                                 await widget.chatController
                                     .fetchGeneratedText(text);
                               },
