@@ -3,48 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app/app_text.dart';
+import '../app/repository.dart';
 import '../controllers/chat.dart';
 import '../widgets/input_field.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final ChatController chatController = Get.put(ChatController());
-  final ScrollController scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    chatController.isLoading.listen((isLoading) {
-      if (isLoading) {
-        _scrollToEnd();
-      }
-    });
-    chatController.messages.listen((_) {
-      Future.delayed(const Duration(milliseconds: 100), _scrollToEnd);
-    });
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToEnd() {
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +24,11 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             child: Obx(() => ListView.builder(
-                  controller: scrollController,
-                  itemCount: chatController.messages.length +
-                      (chatController.isLoading.value ? 1 : 0),
+                  controller: Repository.instance.chatController.scrollController,
+                  itemCount: Repository.instance.chatController.messages.length +
+                      (Repository.instance.chatController.isLoading.value ? 1 : 0),
                   itemBuilder: (context, index) {
-                    if (index >= chatController.messages.length) {
+                    if (index >= Repository.instance.chatController.messages.length) {
                       return const Center(
                         child: Padding(
                           padding: EdgeInsets.all(8),
@@ -80,15 +44,12 @@ class _HomePageState extends State<HomePage> {
                       );
                     } else {
                       bool isUserMessage =
-                          chatController.messages[index].keys.first;
+                          Repository.instance.chatController.messages[index].keys.first;
                       String messageText =
-                          chatController.messages[index][isUserMessage]!;
+                      Repository.instance.chatController.messages[index][isUserMessage]!;
                       return Container(
                         margin: const EdgeInsets.only(
-                          left: 30,
-                          right: 30,
-                          bottom: 10,
-                        ),
+                            left: 30, right: 30, bottom: 10),
                         decoration: BoxDecoration(
                             color: isUserMessage
                                 ? Colors.transparent
@@ -104,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 )),
           ),
-          InputFieldWithButton(chatController: chatController),
+          InputFieldWithButton(chatController: Repository.instance.chatController),
         ],
       ),
     );

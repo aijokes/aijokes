@@ -1,7 +1,10 @@
+import 'package:aijokes/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:aijokes/app/router.dart';
+
+import 'app/inject_dependencies.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = SchedulerBinding.instance.window.platformBrightness;
-
+    injectDependencies();
     final darkTheme = ThemeData(
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
@@ -32,8 +35,10 @@ class MyApp extends StatelessWidget {
       useMaterial3: true,
     );
 
-    return MaterialApp.router(
-      routerConfig: router,
+    return GetMaterialApp(
+      routes: {
+        '/': (context) => HomePage(),
+      },
       title: 'AiJokes',
       theme: lightTheme,
       //darkTheme: darkTheme,

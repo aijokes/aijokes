@@ -1,4 +1,5 @@
 import 'package:aijokes/app/app_text.dart';
+import 'package:aijokes/app/repository.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/chat.dart';
@@ -75,15 +76,15 @@ class InputFieldWithButtonState extends State<InputFieldWithButton> {
                               icon: const Icon(Icons.send),
                               onPressed: () async {
                                 String text = _controller.text;
+                                Repository.instance.chatController.isValidRussianString(text);
                                 _controller.clear();
-                                widget.chatController.addMessage(text);
-                                await widget.chatController
-                                    .fetchGeneratedText(text);
                               },
                             )
-                          : const IconButton(
-                              onPressed: null,
-                              icon: Icon(
+                          :  IconButton(
+                              onPressed: (){
+                                Repository.instance.chatController.sendEmpty();
+                              },
+                              icon: const Icon(
                                 Icons.send,
                                 color: Colors.black12,
                               )),
